@@ -3,7 +3,6 @@ package com.taskTracking.users;
 import com.taskTracking.common.Enums;
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
