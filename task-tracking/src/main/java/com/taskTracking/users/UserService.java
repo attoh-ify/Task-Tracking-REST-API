@@ -1,22 +1,32 @@
 package com.taskTracking.users;
 
 import com.taskTracking.common.Enums;
+import com.taskTracking.common.dto.CreateUserRequest;
+import com.taskTracking.common.dto.UserResponse;
+import com.taskTracking.common.exceptions.BadRequestException;
+import com.taskTracking.common.utils.PasswordUtils;
 
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.inject.Inject;
 
 @Stateless
 public class UserService {
-    @PersistenceContext(unitName = "TASK-TRACKING-Unit")
-    EntityManager em;
+    @Inject
+    private UserDAO userDAO;
 
-    public void test() {
-        var user = new User(
-                "tobe",
-                "password",
+    public UserResponse createUser(CreateUserRequest request) {
+        String username = request.getUsername();
+        if (userDAO.findByUsername(username) != null) {
+            throw new BadRequestException("PasswordUtils.hashPassword(request.getPassword())");
+        }
+
+        User user = new User(
+                username,
+                PasswordUtils.hashPassword(request.getPassword()),
                 Enums.ROLES.USER
         );
-        em.persist(user);
+
+        userDAO.save(user);
+        return new UserResponse(user);
     }
 }
