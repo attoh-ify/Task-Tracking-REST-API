@@ -71,7 +71,7 @@
 
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin-parent</artifactId>
+                <artifactId>wildfly-maven-plugin</artifactId>
                 <version>3.0.2.Final</version>
                 <configuration>
                     <hostname>localhost</hostname>
