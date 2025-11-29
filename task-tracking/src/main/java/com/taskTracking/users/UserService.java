@@ -2,8 +2,11 @@ package com.taskTracking.users;
 
 import com.taskTracking.common.Enums;
 import com.taskTracking.common.dto.CreateUserRequest;
+import com.taskTracking.common.dto.LoginRequest;
+import com.taskTracking.common.dto.LoginResponse;
 import com.taskTracking.common.dto.UserResponse;
 import com.taskTracking.common.exceptions.BadRequestException;
+import com.taskTracking.common.utils.JWTUtils;
 import com.taskTracking.common.utils.PasswordUtils;
 
 import javax.ejb.Stateless;
@@ -17,7 +20,7 @@ public class UserService {
     public UserResponse createUser(CreateUserRequest request) {
         String username = request.getUsername();
         if (userDAO.findByUsername(username) != null) {
-            throw new BadRequestException("PasswordUtils.hashPassword(request.getPassword())");
+            throw new BadRequestException("User with the username provided already exists");
         }
 
         User user = new User(
@@ -28,5 +31,20 @@ public class UserService {
 
         userDAO.save(user);
         return new UserResponse(user);
+    }
+
+    public LoginResponse login(LoginRequest request) {
+        String username = request.getUsername();
+        String password = request.getPassword();
+        User user = userDAO.findByUsername(username);
+        if (user == null) {
+            throw new BadRequestException("Invalid username or password");
+        }
+
+        if (!PasswordUtils.verifyPassword(password, user.getPasswordHash())) {
+            throw new BadRequestException("Invalid username or password");
+        }
+
+        return new LoginResponse(JWTUtils.generateToken(user.getId(), user.getRole()));
     }
 }
