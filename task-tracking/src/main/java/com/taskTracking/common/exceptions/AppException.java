@@ -1,6 +1,5 @@
 package com.taskTracking.common.exceptions;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 
 public class AppException extends RuntimeException {
@@ -16,7 +15,7 @@ public class AppException extends RuntimeException {
     public AppException(String message, int statusCode) {
         super(message);
         this.statusCode = statusCode;
-        this.data = Json.createObjectBuilder().build();
+        this.data = null;
     }
 
     public int getStatusCode() {

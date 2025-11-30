@@ -2,6 +2,7 @@ package com.taskTracking.common.exceptions;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -15,7 +16,7 @@ public class AppExceptionMapper implements ExceptionMapper<AppException> {
         JsonObject payload = Json.createObjectBuilder()
                 .add("success", false)
                 .add("message", ex.getMessage())
-                .add("data", ex.getData())
+                .add("data", ex.getData() != null ? ex.getData() : JsonValue.NULL)
                 .build();
 
         return Response.status(ex.getStatusCode())
