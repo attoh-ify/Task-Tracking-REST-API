@@ -23,4 +23,13 @@ public class UserDAO {
         List<User> result = query.getResultList();
         return result.isEmpty() ? null : result.get(0);
     }
+
+    public User findById(String userId) {
+        TypedQuery<User> query = em.createQuery(
+                "SELECT u FROM User u WHERE u.id = :userId", User.class
+        );
+        query.setParameter("userId", userId);
+        List<User> result = query.getResultList();
+        return result.isEmpty() ? null : result.get(0);
+    }
 }
