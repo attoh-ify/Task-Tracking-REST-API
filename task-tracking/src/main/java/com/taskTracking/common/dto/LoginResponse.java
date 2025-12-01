@@ -1,7 +1,7 @@
 package com.taskTracking.common.dto;
 
 public class LoginResponse {
-    private String token;
+    private final String token;
 
     public LoginResponse(String token) {
         this.token = token;

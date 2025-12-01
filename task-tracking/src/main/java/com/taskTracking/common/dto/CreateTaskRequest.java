@@ -8,6 +8,8 @@ public class CreateTaskRequest {
 
     private String description;
 
+    public CreateTaskRequest() {}
+
     public String getTitle() {
         return title;
     }

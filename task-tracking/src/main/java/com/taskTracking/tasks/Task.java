@@ -11,9 +11,9 @@ import java.util.UUID;
 public class Task {
     @Id
     @Column(length = 36)
-    public String id = UUID.randomUUID().toString();
+    private final String id = UUID.randomUUID().toString();
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String title;
 
     @Column(length = 1000)
@@ -24,7 +24,7 @@ public class Task {
     private User user;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     public Task() {}
 
@@ -32,6 +32,7 @@ public class Task {
         this.title = title;
         this.description = description;
         this.user = user;
+        this.createdAt = LocalDateTime.now();
     }
 
     public String getId() {

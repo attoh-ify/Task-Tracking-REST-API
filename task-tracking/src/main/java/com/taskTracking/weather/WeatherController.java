@@ -1,7 +1,8 @@
 package com.taskTracking.weather;
 
-import com.taskTracking.common.dto.Weather;
+import com.taskTracking.common.dto.WeatherResponse;
 import com.taskTracking.common.response.ApiResponse;
+import com.taskTracking.security.Secured;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -16,9 +17,10 @@ public class WeatherController {
     private WeatherService weatherService;
 
     @GET
+    @Secured
     @Path("/{city}")
     public Response getWeather(@PathParam("city") String city) {
-        Weather weather = weatherService.getWeather(city);
-        return Response.ok(new ApiResponse<>(true, "Weather fetched successfully", weather)).build();
+        WeatherResponse weatherResponse = weatherService.getWeather(city);
+        return Response.ok(new ApiResponse<>(true, "Weather fetched successfully", weatherResponse)).build();
     }
 }

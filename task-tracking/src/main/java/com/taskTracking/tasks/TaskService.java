@@ -3,6 +3,7 @@ package com.taskTracking.tasks;
 import com.taskTracking.common.dto.CreateTaskRequest;
 import com.taskTracking.common.dto.TaskResponse;
 import com.taskTracking.common.exceptions.BadRequestException;
+import com.taskTracking.events.TaskCreatedEvent;
 import com.taskTracking.users.User;
 import com.taskTracking.users.UserDAO;
 
@@ -10,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import javax.enterprise.event.Event;
 
 @Stateless
 public class TaskService {
@@ -18,6 +20,9 @@ public class TaskService {
 
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private Event<TaskCreatedEvent> taskCreatedEventEvent;
 
     public TaskResponse createTask(CreateTaskRequest request, String userId) {
         User user = userDAO.findById(userId);
@@ -31,6 +36,10 @@ public class TaskService {
                 request.getDescription(),
                 user
         );
+
+        taskDAO.save(task);
+
+        taskCreatedEventEvent.fire(new TaskCreatedEvent(task));
 
         return new TaskResponse(task);
     }

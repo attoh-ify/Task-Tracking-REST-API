@@ -33,6 +33,22 @@ public class UserService {
         return new UserResponse(user);
     }
 
+    public UserResponse createAdmin(CreateUserRequest request) {
+        String username = request.getUsername();
+        if (userDAO.findByUsername(username) != null) {
+            throw new BadRequestException("Admin with the username provided already exists");
+        }
+
+        User user = new User(
+                username,
+                PasswordUtils.hashPassword(request.getPassword()),
+                Enums.ROLES.ADMIN
+        );
+
+        userDAO.save(user);
+        return new UserResponse(user);
+    }
+
     public LoginResponse login(LoginRequest request) {
         String username = request.getUsername();
         String password = request.getPassword();

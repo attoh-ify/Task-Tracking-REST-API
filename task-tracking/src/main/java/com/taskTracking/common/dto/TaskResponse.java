@@ -5,11 +5,11 @@ import com.taskTracking.tasks.Task;
 import java.time.LocalDateTime;
 
 public class TaskResponse {
-    private String taskId;
-    private String title;
-    private String description;
-    private String ownerId;
-    private LocalDateTime createdAt;
+    private final String taskId;
+    private final String title;
+    private final String description;
+    private final String ownerId;
+    private final LocalDateTime createdAt;
 
     public TaskResponse(Task task) {
         this.taskId = task.getId();

@@ -1,6 +1,6 @@
 package com.taskTracking.common.dto;
 
-public class Weather {
+public class WeatherResponse {
     private String city;
     private String description;
     private double temperature;

@@ -4,9 +4,9 @@ import com.taskTracking.common.Enums;
 import com.taskTracking.users.User;
 
 public class UserResponse {
-    private String userId;
-    private String username;
-    private Enums.ROLES role;
+    private final String userId;
+    private final String username;
+    private final Enums.ROLES role;
 
     public UserResponse(User user) {
         this.userId = user.getId();

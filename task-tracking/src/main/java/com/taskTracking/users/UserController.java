@@ -23,4 +23,11 @@ public class UserController {
         UserResponse userResponse = userService.createUser(request);
         return Response.ok(new ApiResponse<>(true, "User created successfully", userResponse)).build();
     }
+
+    @POST
+    @Path("/admin")
+    public Response createAdmin(@Valid CreateUserRequest request) {
+        UserResponse userResponse = userService.createAdmin(request);
+        return Response.ok(new ApiResponse<>(true, "Admin created successfully", userResponse)).build();
+    }
 }

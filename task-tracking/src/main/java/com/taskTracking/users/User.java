@@ -10,7 +10,7 @@ import java.util.UUID;
 public class User {
     @Id
     @Column(length = 36)
-    private String id = UUID.randomUUID().toString();
+    private final String id = UUID.randomUUID().toString();
 
     @Column(nullable = false, unique = true)
     private String username;

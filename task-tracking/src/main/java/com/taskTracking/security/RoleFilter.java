@@ -31,9 +31,20 @@ public class RoleFilter implements ContainerRequestFilter {
             }
         }
 
-        Enums.ROLES userROle = (Enums.ROLES) ctx.getProperty("role");
+        String roleString = (String) ctx.getProperty("role");
 
-        if (userROle == null || Arrays.stream(rolesAllowed.value()).noneMatch(r -> r.equals(userROle))) {
+        if (roleString == null) {
+            throw new UnauthorizedException("Missing role");
+        }
+
+        Enums.ROLES userRole;
+        try {
+            userRole = Enums.ROLES.valueOf(roleString);
+        } catch (Exception e) {
+            throw new UnauthorizedException("Invalid role");
+        }
+
+        if (Arrays.stream(rolesAllowed.value()).noneMatch(r -> r.equals(userRole))) {
             throw new UnauthorizedException("You do not have permission to access this resource");
         }
     }
