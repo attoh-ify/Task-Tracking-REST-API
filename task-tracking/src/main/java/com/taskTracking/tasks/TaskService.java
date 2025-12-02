@@ -4,6 +4,7 @@ import com.taskTracking.common.dto.CreateTaskRequest;
 import com.taskTracking.common.dto.TaskResponse;
 import com.taskTracking.common.exceptions.BadRequestException;
 import com.taskTracking.events.TaskCreatedEvent;
+import com.taskTracking.logger.Logged;
 import com.taskTracking.users.User;
 import com.taskTracking.users.UserDAO;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.event.Event;
 
+@Logged
 @Stateless
 public class TaskService {
     @Inject
@@ -31,8 +33,13 @@ public class TaskService {
             throw new BadRequestException("User with the userId provided doesn\'t exist");
         }
 
+        String title = request.getTitle();
+        if (taskDAO.findByTitle(title) != null) {
+            throw new BadRequestException("Task with this title already exists");
+        }
+
         Task task = new Task(
-                request.getTitle(),
+                title,
                 request.getDescription(),
                 user
         );

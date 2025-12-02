@@ -37,8 +37,8 @@ public class TaskController {
     @GET
     @Secured
     @RolesAllowed({Enums.ROLES.USER, Enums.ROLES.ADMIN})
-    public Response getTasks(@HeaderParam("userId") String userId,
-                             @HeaderParam("role") String role) {
+    public Response getTasks() {
+        String userId = requestContext.getUserId();
         List<TaskResponse> taskResponses = taskService.getTaskByUser(userId);
         return Response.ok(new ApiResponse<>(true, "Tasks retrieved", taskResponses)).build();
     }
@@ -61,3 +61,6 @@ public class TaskController {
         return Response.ok(new ApiResponse<>(true, "Task deleted")).build();
     }
 }
+
+//@HeaderParam("userId") String userId,
+//@HeaderParam("role") String role

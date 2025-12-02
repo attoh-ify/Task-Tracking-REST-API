@@ -8,10 +8,12 @@ import com.taskTracking.common.dto.UserResponse;
 import com.taskTracking.common.exceptions.BadRequestException;
 import com.taskTracking.common.utils.JWTUtils;
 import com.taskTracking.common.utils.PasswordUtils;
+import com.taskTracking.logger.Logged;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+@Logged
 @Stateless
 public class UserService {
     @Inject

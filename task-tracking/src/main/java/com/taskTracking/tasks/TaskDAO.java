@@ -33,6 +33,15 @@ public class TaskDAO {
         return result.isEmpty() ? null : result.get(0);
     }
 
+    public Task findByTitle(String title) {
+        TypedQuery<Task> query = em.createQuery(
+                "SELECT t FROM Task t WHERE t.title = :title", Task.class
+        );
+        query.setParameter("title", title);
+        List<Task> result = query.getResultList();
+        return result.isEmpty() ? null : result.get(0);
+    }
+
     public List<Task> findByOwnerId(String userId) {
         TypedQuery<Task> query = em.createQuery(
                 "SELECT t FROM Task t WHERE t.user.id = :userId", Task.class
